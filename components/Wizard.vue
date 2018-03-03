@@ -13,11 +13,8 @@
       <div class="wizard__body__actions clearfix">
         <a v-if="backEnabled" class="wizard__back pull-left" @click="goBack()"> <img src="../images/back.png" alt="next icon"> <span>{{previousStepLabel}}</span> 
         </a>
-        <a v-if="currentStep != steps.length - 1" class="wizard__next pull-right" @click="goNext()">
+        <a v-if="nextEnabled" class="wizard__next pull-right" @click="goNext()">
           <span>{{nextStepLabel}}</span> <img src="../images/next.png" alt="next icon">
-        </a>
-        <a v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" @click="goNext()">
-          {{finalStepLabel}}
         </a>
       </div>
     </div>
@@ -36,6 +33,16 @@ export default {
     finalStepLabel: {default: 'Save'},
     onNext: {},
     onBack: {},
+    backEnabled: {
+      default: function(){
+        return this.currentStep != 0;
+      }
+    },
+    nextEnabled: {
+      default: function(){
+        return true;
+      }
+    },
   },
 
   data () {
@@ -55,9 +62,6 @@ export default {
     },
     currentSlot() {
       return this.steps[this.currentStep].slot;
-    },
-    backEnabled() {
-      return this.currentStep != 0;
     }
   },
   methods: {
@@ -243,10 +247,6 @@ export default {
 
 .wizard__body__actions a:hover{
   background-color: #357fae;
-}
-
-.wizard__body__actions a.final-step{
-  background-color: #6eb165;
 }
 
 </style>
